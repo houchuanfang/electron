@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--<webview id="foo" src="" style="display:inline-block; width:640px; height:480px"></webview>-->
+    <title>Document</title>
+    <style>
+        .box{
+            /*background: #7FFFD4;*/
+            height: 400px;
+            box-shadow: 10px 10px 5px 5px #888888;
+            /*background-clip:content-box;*/
+            /*border: 2px dashed red;*/
+            -webkit-border-image: url(images/border.png) 30 30 round;
+            -moz-border-image: url(images/border.png) 30 30 round;
+            -o-border-image: url(images/border.png) 30 30 round;
+            border-image: url(images/border.png)  30 30 round;
+        }
+    </style>
+</head>
+<script src="./js/textp.js"></script>
+<body onload="init()">
+<h1>Hello electron</h1>
+<p>hahah</p>
+<label > 选取文件</label>
+<input type="file"></input>
+<button onclick="say_hello()">hello Runjs!</button>
+<div class="box">
+    我是一个盒子
+</div>
+<script type="text/javascript">
+/*
+* 页面要注意：
+    1. html中的require('electron').remote与js中的electron = require('electron')是不一样的。
+        remote是什么：remote 模块提供了一种在渲染进程（网页）和主进程之间进行进程间通讯（IPC）的简便途径
+        在这里，js就是主进程，页面中的js就是渲染进程。
+        如果要使得独立js中与页面js的代码互相操作。必要要使用这样的通讯途径。(这个例子没有很好的验证，在我下一篇的例子上就有，还有ipc)
+* */
+    const remote = require('electron').remote;
+    const Menu = remote.Menu;
+    const MenuItem = remote.MenuItem;
+
+    var menu = new Menu();
+    menu.append(new MenuItem({ label: 'MenuItem1', click: function() { alert('我是menuitem1'); } }));
+    // menu.append(new MenuItem({ type: 'separator' }));
+    menu.append(new MenuItem({ label: 'MenuItem2', type: 'checkbox', checked: true }));
+
+    window.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        menu.popup(remote.getCurrentWindow());
+    }, false);
+
+
+
+
+</script>
+</body>
+</html>
